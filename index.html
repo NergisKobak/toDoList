@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body
+    class="bg-stone-300 text-amber-500 flex justify-center min-h-screen items-center"
+  >
+    <div
+      id="container"
+      class="w-[350px] h-100 bg-stone-500 p-5 rounded-lg shadow-amber-600/70 shadow-xl"
+    >
+      <input
+        class="rounded-md w-full py-2 placeholder:text-center text-amber-500"
+        type="text"
+        id="inputBox"
+        placeholder="Liste Oluştur"
+      />
+      <button
+        class="bg-amber-950 rounded-md w-full mt-2 py-2"
+        id="addBtn"
+        onclick="createList()"
+      >
+        Liste Ekle
+      </button>
+      <div id="listContainer" class="mt-6"></div>
+      <ul id="list"></ul>
+    </div>
+
+    <script>
+      function createList() {
+        const listName = document.getElementById("inputBox").value;
+        if (!listName.trim()) return alert("Lütfen liste adı girin");
+        document.getElementById("inputBox").value = "";
+
+        const listDiv = document.createElement("div");
+        listDiv.className = "bg-stone-600 p-4 rounded-lg mt-2";
+        listDiv.innerHTML = `
+        <h2 class="text-amber-500 text-lg">${listName}</h2>
+        <input type="text" class="rounded-md w-full py-2 placeholder:text-center text-amber-500" placeholder="Listeye Ekle" /></input> 
+         <button class="bg-amber-950 rounded-md w-full mt-2 py-2" onclick="addItem(this)">Ekle</button>
+        <ul class="mt-2 text-black"></ul>
+        `;
+        document.getElementById("listContainer").appendChild(listDiv);
+      }
+
+      function addItem(button) {
+        const input = button.previousElementSibling;
+        const itemText = input.value;
+        if (!itemText.trim()) return alert("Boş olamaz");
+        input.value = "";
+        const li = document.createElement("li");
+        li.className = "justify-between flex p-2 bg-stone-600 rounded-lg mt-2";
+        li.innerHTML = `
+       <span>${itemText}</span>
+      <button onclick="completeItem(this)" class="bg-lime-400 text-white rounded-md  mt-2 p-2">Tamamlandı</button>
+      <button onclick="deleteItem(this)" class="bg-red-600 rounded-md text-white mt-2 p-2">Sil</button>
+       `;
+        button.nextElementSibling.appendChild(li);
+      }
+
+      function deleteItem(button) {
+        button.parentElement.classList.toggle("line-through");
+      }
+
+      function completeItem(button) {
+        button.parentElement.remove();
+      }
+    </script>
+  </body>
+</html>
